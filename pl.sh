@@ -17,19 +17,24 @@ else
 	if [ $# -eq 1 ]
 	then 
 		echo "só passou o nome do arquivo"
-		nome_arquivo=$1
+		NOME_ARQUIVO=$1
 
-		##TODO: Criar script para registrar no log impressão
-
+		# registra no log impressão
+		USUARIO_ATUAL="$USER"
+		#TODO: CHECAR SE O USUARIO EXISTE NA LISTA DE USUARIOS.
+		TAMANHO_ARQUIVO="$(wc -c "$NOME_ARQUIVO" | awk '{print $1}')"
+		#TODO: CHECAR SE O USUARIO POSSUI AINDA POSSUI LIMITE PARA USAR.
+		DATA="$(date +"%d %m %Y  %H:%M:%S")"
+		echo "$USUARIO_ATUAL $NOME_ARQUIVO $TAMANHO_ARQUIVO $DATA" >> registros/log.txt
 	else
 		echo "passo o nome do arquivo e um parametro"
-		nome_arquivo=$1
-		parametro=$2
+		NOME_ARQUIVO=$1
+		PARAMETRO=$2
 	fi
 fi
 
-echo "nome do arquivo: $nome_arquivo"
-echo "parametro passado: $parametro"
+echo "nome do arquivo: $NOME_ARQUIVO"
+echo "parametro passado: $PARAMETRO"
 ###################################################################################################
 
 
@@ -39,9 +44,7 @@ echo "parametro passado: $parametro"
 
 ############################tasks###############################################
 
-#TODO: CHECAR SE O USUARIO EXITE NA LISTA DE USUARIOS.
 
-#TODO: CHECAR SE O USUARIO POSSUI AINDA POSSUI LIMITE PARA USAR.
 
 #TODO: RETORNAR RELATORIO PARA O USUARIO QUANDO O PARAMETRO -f FOR PASSADO
 
