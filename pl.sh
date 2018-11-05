@@ -24,6 +24,7 @@ else
 			echo "só passou o nome do arquivo"
 			NOME_ARQUIVO=$1
 			##TODO: mudar arvore de busca de arquivo
+<<<<<<< HEAD
 			if [ `grep / <<< $NOME_ARQUIVO | wc -l` -gt 0 ]
 			then 
 				CAMINHO=$(dirname "${VAR}")
@@ -64,4 +65,10 @@ echo "parametro passado: $PARAMETRO"
 
 ############################tasks###############################################
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 35718f1e60963e8d3b2102cdd13934c946508439
 #TODO: CRIAR CRONTAB PARA INICIAR OS USUARIOS COM UMA CONTA QUE ASSUME O VALOR MAX(0, CONSUMO - COTA)
