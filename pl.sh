@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#TODO: CHECAR SE OS ARQUIVOS AUXILIARES EXISTEM /////////// tu não já fez?
 isInit=$(ls registros 2> /dev/null | wc -l)
 
 if [ $isInit -ne 2 ]
@@ -10,6 +9,7 @@ fi
 
 
 ############################### Recebe nome do arquivo e/ou parametros ###########################
+LIMITE_PAGIMAS=30
 if [ $# -eq 0 ] 
 then
 	echo "ZERO PARAMETROS"
@@ -24,27 +24,43 @@ else
 			echo "só passou o nome do arquivo"
 			NOME_ARQUIVO=$1
 			##TODO: mudar arvore de busca de arquivo
-<<<<<<< HEAD
+
 			if [ `grep / <<< $NOME_ARQUIVO | wc -l` -gt 0 ]
 			then 
 				CAMINHO=$(dirname "${VAR}")
 				ARQUIVO=$(basename "${VAR}")
-				find "$CAMINHO" "$NOME_ARQUIVO" 
 				echo "maior que 1"
 			else
+				CAMINHO="./"
+				ARQUIVO="$NOME_ARQUIVO"
 				echo "menor"
 			fi
-			# a verificação é correta?
-			if [ `find "$CAMINHO" "$ARQUIVO" -type f | wc -l` -eq 1 ]
+
+			echo 
+			# melhorar verificação
+			if [ -f "$ARQUIVO" ]
 			then
 				# registra no log impressão
 				USUARIO_ATUAL="$USER"
-				#TODO: CHECAR SE O USUARIO EXISTE NA LISTA DE USUARIOS. grep livia registros/log.txt | awk '{ print $4 }'
-				TAMANHO_ARQUIVO="$(wc -c "$NOME_ARQUIVO" | awk '{print $1}')"
-				NUMERO_PAGINAS="$(($TAMANHO_ARQUIVO+3600-1)/3600)"
-				#TODO: CHECAR SE O USUARIO POSSUI AINDA POSSUI LIMITE PARA USAR.
-				DATA="$(date +"%d/%m/%Y  %H:%M:%S")"
-				echo "$USUARIO_ATUAL $NOME_ARQUIVO $TAMANHO_ARQUIVO $NUMERO_PAGINAS $DATA" >> registros/log.txt
+				if [ `wc -w registros/log.txt | awk '{ print $1 }'` -eq 0 ]
+				then
+					QNT_IMPRESSAO=0
+				else	
+					QNT_IMPRESSAO=$(grep "$USUARIO_ATUAL" registros/log.txt | awk '{sum+=$4} END { print sum }')
+				fi
+
+				echo "$QNT_IMPRESSAO"
+				if [ $QNT_IMPRESSAO -gt 30 ]
+				then
+					echo "limite de paginas atingido"
+				else
+					TAMANHO_ARQUIVO=$(wc -c "$NOME_ARQUIVO" | awk '{print $1}')
+					NUMERO_PAGINAS=$(expr $TAMANHO_ARQUIVO + 3600 - 1)
+					NUMERO_PAGINAS=$(expr $NUMERO_PAGINAS / 3600)
+					#TODO: CHECAR SE O USUARIO POSSUI AINDA POSSUI LIMITE PARA USAR.
+					DATA=$(date +"%d/%m/%Y  %H:%M:%S")
+					echo "$USUARIO_ATUAL $NOME_ARQUIVO $TAMANHO_ARQUIVO $NUMERO_PAGINAS $DATA" >> registros/log.txt
+				fi
 			else
 				echo "arquivo inexistente"
 			fi
@@ -65,10 +81,4 @@ echo "parametro passado: $PARAMETRO"
 
 ############################tasks###############################################
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 35718f1e60963e8d3b2102cdd13934c946508439
 #TODO: CRIAR CRONTAB PARA INICIAR OS USUARIOS COM UMA CONTA QUE ASSUME O VALOR MAX(0, CONSUMO - COTA)
