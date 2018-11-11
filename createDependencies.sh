@@ -6,3 +6,4 @@ cd registros
 echo "" >> log.txt
 echo "" >> registrosConsumo.txt
 cd ..
+./createFileUses.sh

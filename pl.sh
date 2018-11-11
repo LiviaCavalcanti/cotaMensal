@@ -1,4 +1,21 @@
 #!/bin/bash
+#############################
+
+function checkUser {
+users=`grep $USER registros/users.txt | wc -l`
+
+if [ $users -eq 1 ] 
+then
+	echo "Usuario tem permissão"
+else
+	echo "Usuario nao pode imprimir nao tem permissão"
+	exit 1
+fi
+
+}
+
+
+
 
 isInit=$(ls registros 2> /dev/null | wc -l)
 
@@ -14,6 +31,7 @@ if [ $# -eq 0 ]
 then
 	echo "ZERO PARAMETROS"
 else
+	checkUser
 	##TODO: Criar script para verificar se o usuario pode imprimir
 	if [ $# -eq 1 ]
 	then 
@@ -82,3 +100,9 @@ echo "parametro passado: $PARAMETRO"
 ############################tasks###############################################
 
 #TODO: CRIAR CRONTAB PARA INICIAR OS USUARIOS COM UMA CONTA QUE ASSUME O VALOR MAX(0, CONSUMO - COTA)
+
+
+########################################Funcoes###########################################################
+
+
+
