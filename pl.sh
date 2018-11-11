@@ -1,5 +1,8 @@
 #!/bin/bash
-#############################
+
+cotaTotal='200'
+
+#############################Funcoes3#############################################################
 
 function checkUser {
 users=`grep $USER registros/users.txt | wc -l`
@@ -14,6 +17,29 @@ fi
 
 }
 
+function checkUserCota {
+numeroLinhas=`cat registros/log.txt | grep $USER | wc -l`
+cota=`cat registros/log.txt | grep $USER | awk '{sum+=$3} END {print sum}'`
+
+if [ $numeroLinhas -eq 0 ] 
+then
+	echo "usuario ainda tem limite"
+else 
+	if [ $cota -lt $cotaTotal ] 
+	then
+		echo "Usuario ainda tem limite"
+	else
+		echo "Usuario nao possui mais limite"
+		exit 1
+	fi
+fi
+
+
+
+}
+
+
+###################################################################################################
 
 
 
@@ -32,7 +58,6 @@ then
 	echo "ZERO PARAMETROS"
 else
 	checkUser
-	##TODO: Criar script para verificar se o usuario pode imprimir
 	if [ $# -eq 1 ]
 	then 
 		if [ "$1" = "-f" ]
@@ -75,6 +100,7 @@ else
 					TAMANHO_ARQUIVO=$(wc -c "$NOME_ARQUIVO" | awk '{print $1}')
 					NUMERO_PAGINAS=$(expr $TAMANHO_ARQUIVO + 3600 - 1)
 					NUMERO_PAGINAS=$(expr $NUMERO_PAGINAS / 3600)
+					checkUserCota
 					#TODO: CHECAR SE O USUARIO POSSUI AINDA POSSUI LIMITE PARA USAR.
 					DATA=$(date +"%d/%m/%Y  %H:%M:%S")
 					echo "$USUARIO_ATUAL $NOME_ARQUIVO $TAMANHO_ARQUIVO $NUMERO_PAGINAS $DATA" >> registros/log.txt
