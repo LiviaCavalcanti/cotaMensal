@@ -7,3 +7,8 @@ echo "" >> log.txt
 echo "" >> registrosConsumo.txt
 cd ..
 ./createFileUses.sh
+
+
+#cron
+echo "0 0 1 * * root ./migraConsumos.sh " >> cron.txt
+crontab cron.txt
