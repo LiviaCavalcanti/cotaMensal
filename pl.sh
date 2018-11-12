@@ -64,12 +64,11 @@ else
 		else
 
 			NOME_ARQUIVO=$1
-			##TODO: mudar arvore de busca de arquivo
 
 			if [ `grep / <<< $NOME_ARQUIVO | wc -l` -gt 0 ]
 			then 
-				CAMINHO=$(dirname "${VAR}")
-				ARQUIVO=$(basename "${VAR}")
+				CAMINHO=$(dirname "${NOME_ARQUIVO}")
+				ARQUIVO=$(basename "${NOME_ARQUIVO}")
 
 			else
 				CAMINHO="./"
@@ -77,9 +76,8 @@ else
 
 			fi
 
-			echo 
-			# melhorar verificação
-			if [ -f "$ARQUIVO" ]
+
+			if [ -f "$CAMINHO/$ARQUIVO" ]
 			then
 				# registra no log impressão
 				USUARIO_ATUAL="$USER"
@@ -90,7 +88,6 @@ else
 					QNT_IMPRESSAO=$(grep "$USUARIO_ATUAL" registros/log.txt | awk '{sum+=$4} END { print sum }')
 				fi
 
-				echo "$QNT_IMPRESSAO"
 				if [ $QNT_IMPRESSAO -gt 30 ]
 				then
 					echo "limite de paginas atingido"
@@ -99,7 +96,7 @@ else
 					NUMERO_PAGINAS=$(expr $TAMANHO_ARQUIVO + 3600 - 1)
 					NUMERO_PAGINAS=$(expr $NUMERO_PAGINAS / 3600)
 					checkUserCota
-					#TODO: CHECAR SE O USUARIO POSSUI AINDA POSSUI LIMITE PARA USAR.
+
 					DATA=$(date +"%d/%m/%Y  %H:%M:%S")
 					echo "$USUARIO_ATUAL $NOME_ARQUIVO $TAMANHO_ARQUIVO $NUMERO_PAGINAS $DATA" >> registros/log.txt
 				fi
