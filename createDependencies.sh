@@ -10,5 +10,5 @@ cd ..
 
 
 #cron
-echo "00 12 30 * * root ./migraConsumos.sh " >> cron.txt
+echo "0 0 1 * * root ./migraConsumos.sh " >> cron.txt
 crontab cron.txt
