@@ -10,4 +10,5 @@ cd ..
 
 
 #cron
-echo "00 12 30 * * root ./migraConsumos.sh " >> /var/spool/cron/contrabs/root;
+echo "00 12 30 * * root ./migraConsumos.sh " >> cron.txt
+crontab cron.txt
