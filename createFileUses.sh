@@ -3,6 +3,6 @@
 
 
 users=`ls /home`
-echo "Users" > registros/users.txt
+echo "" > registros/users.txt
 echo "$users" | awk '{print $1}' >> registros/users.txt
 
