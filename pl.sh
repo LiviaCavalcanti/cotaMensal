@@ -62,7 +62,7 @@ else
 		then
 			cat registros/log.txt
 		else
-			echo "só passou o nome do arquivo"
+
 			NOME_ARQUIVO=$1
 			##TODO: mudar arvore de busca de arquivo
 
@@ -70,11 +70,11 @@ else
 			then 
 				CAMINHO=$(dirname "${VAR}")
 				ARQUIVO=$(basename "${VAR}")
-				echo "maior que 1"
+
 			else
 				CAMINHO="./"
 				ARQUIVO="$NOME_ARQUIVO"
-				echo "menor"
+
 			fi
 
 			echo 
